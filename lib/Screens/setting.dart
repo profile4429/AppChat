@@ -1,3 +1,4 @@
+import 'package:app_chat/helper/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:app_chat/services/auth.dart';
 import 'package:app_chat/helper/authenticate.dart';
@@ -13,24 +14,28 @@ class _SettingState extends State<Setting>{
     return Scaffold(
       appBar: AppBar(title: Text('Setting')),
       body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            authMethods.signOut();
-            Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (context) => Authenticate()
-            ));
+        child: Column(
+          children: [
+            RaisedButton(
+              onPressed: () {
+                authMethods.signOut();
+                Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) => Authenticate()
+                ));
 
-          },
-          color: Colors.black54,
-          child: Center(
-            child: Text(
-              "Đăng Xuất",
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.white,
+              },
+              color: Colors.grey,
+              child: Center(
+                child: Text(
+                  "Đăng Xuất",
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );

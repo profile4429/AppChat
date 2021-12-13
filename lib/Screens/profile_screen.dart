@@ -69,7 +69,7 @@ class _profileState extends State<Profile> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Color(0xff555555),
+        backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
           child: Column(
@@ -100,7 +100,7 @@ class _profileState extends State<Profile> {
               Padding(
                 padding: EdgeInsets.fromLTRB(180.0, 100.0, 0.0, 0.0),
                 child: CircleAvatar(
-                  backgroundColor: Colors.teal,
+                  backgroundColor: Colors.lightBlue,
                   child: IconButton(
                     icon: Icon(
                       Icons.edit,
@@ -166,7 +166,7 @@ class _profileState extends State<Profile> {
                         },
                         style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.black54)),
+                                MaterialStateProperty.all(Colors.blue)),
                         child: const Center(
                           child: Text(
                             "Update",

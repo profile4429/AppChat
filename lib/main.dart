@@ -1,4 +1,5 @@
-import 'package:app_chat/Screens/Music.dart';
+import 'package:app_chat/Screens/Newsfeed.dart';
+import 'package:app_chat/Screens/Newsfeed.dart';
 import 'package:app_chat/Screens/profile_screen.dart';
 import 'package:app_chat/Screens/setting.dart';
 import 'package:app_chat/helper/authenticate.dart';
@@ -66,7 +67,7 @@ class _HomePageState extends State<HomePage> {
   int currentTab = 0;
   final List<Widget> screens = [
     Profile(),
-    Music(),
+    Newsfeed(),
     ChatRoom(),
     Setting(),
   ];
@@ -80,8 +81,8 @@ class _HomePageState extends State<HomePage> {
         bucket: bucket,
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        backgroundColor: Colors.cyan,
+        child: Icon(Icons.add , size: 30, ),
+        backgroundColor: Colors.blue,
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(
               builder: (context) => SearchScreen()
@@ -92,7 +93,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         notchMargin: 10,
-        color: Colors.blueGrey,
+        color: Colors.lightBlue,
         child: Container(
           height: 60,
           child: Row(
@@ -115,12 +116,12 @@ class _HomePageState extends State<HomePage> {
                       children: <Widget>[
                         Icon(
                           Icons.chat,
-                          color: currentTab == 0 ? Colors.blue : Colors.white,
+                          color: currentTab == 0 ? Color.fromRGBO(46,51,227, 1) : Colors.white,
                         ),
                         Text(
                           'Chats',
                           style: TextStyle(
-                            color: currentTab == 0 ? Colors.blue : Colors.white,
+                            color: currentTab == 0 ? Color.fromRGBO(46,51,227, 1) : Colors.white,
                           ),
                         ),
                       ],
@@ -131,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       setState(() {
                         currentScreen =
-                            Music(); // if user taps on this dashboard tab will be active
+                            Newsfeed(); // if user taps on this dashboard tab will be active
                         currentTab = 1;
                       });
                     },
@@ -139,13 +140,13 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
-                          Icons.dashboard,
-                          color: currentTab == 1 ? Colors.blue : Colors.white,
+                          Icons.alarm_on_sharp,
+                          color: currentTab == 1 ? Color.fromRGBO(46,51,227, 1) : Colors.white,
                         ),
                         Text(
-                          'Music',
+                          'News Feed',
                           style: TextStyle(
-                            color: currentTab == 1 ? Colors.blue : Colors.white,
+                            color: currentTab == 1 ? Color.fromRGBO(46,51,227, 1) : Colors.white,
                           ),
                         ),
                       ],
@@ -173,12 +174,12 @@ class _HomePageState extends State<HomePage> {
                       children: <Widget>[
                         Icon(
                           Icons.settings,
-                          color: currentTab == 2 ? Colors.blue : Colors.white,
+                          color: currentTab == 2 ? Color.fromRGBO(46,51,227, 1) : Colors.white,
                         ),
                         Text(
                           'Setting',
                           style: TextStyle(
-                            color: currentTab == 2 ? Colors.blue : Colors.white,
+                            color: currentTab == 2 ? Color.fromRGBO(46,51,227, 1) : Colors.white,
                           ),
                         ),
                       ],
@@ -198,12 +199,12 @@ class _HomePageState extends State<HomePage> {
                       children: <Widget>[
                         Icon(
                           Icons.people,
-                          color: currentTab == 3 ? Colors.blue : Colors.white,
+                          color: currentTab == 3 ? Color.fromRGBO(46,51,227, 1) : Colors.white,
                         ),
                         Text(
                           'Profile',
                           style: TextStyle(
-                            color: currentTab == 3 ? Colors.blue : Colors.white,
+                            color: currentTab == 3 ? Color.fromRGBO(46,51,227, 1) : Colors.white,
                           ),
                         ),
                       ],
