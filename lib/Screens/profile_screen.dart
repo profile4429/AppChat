@@ -1,55 +1,78 @@
+import 'dart:ui';
+
+import 'package:app_chat/helper/helperfunctions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_chat/widgets.dart';
 import 'package:app_chat/services/database.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Profile extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _profileState();
 }
-  class _profileState extends State<Profile>{
-  late final dref = FirebaseDatabase.instance.reference();
+
+class _profileState extends State<Profile> {
+  late final ref = FirebaseDatabase.instance.reference();
   late DatabaseReference databaseReference;
 
-    TextEditingController userNameTextEditingController = new TextEditingController();
-    TextEditingController fullNameTextEditingController = new TextEditingController();
-    TextEditingController emailTextEditingController = new TextEditingController();
+  TextEditingController userNameTextEditingController =
+      new TextEditingController();
+  TextEditingController fullNameTextEditingController =
+      new TextEditingController();
+  TextEditingController emailTextEditingController =
+      new TextEditingController();
+  TextEditingController passwordTextEditingController =
+      new TextEditingController();
+  TextEditingController confirmTextEditingController =
+      new TextEditingController();
+  DatabaseMethods dbMethods = DatabaseMethods();
 
+  Future fetchData() async {
+    String? email = await HelperFunctions.getUserEmailsharedPreference();
+    if (email != null) {
+      var user = await dbMethods.getUserbyUserEmail(email);
+      if (user != null) {
+        setState(() {
+          userNameTextEditingController.text = user['username'];
+          fullNameTextEditingController.text = user['fullname'];
+          emailTextEditingController.text = user['email'];
+        });
+      }
+    }
+  }
 
-  Widget textfield({@required hintText}) {
-    return Material(
-      elevation: 4,
-      shadowColor: Colors.grey,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-            hintText: hintText,
-            hintStyle: TextStyle(
-              letterSpacing: 2,
-              color: Colors.black54,
-              fontWeight: FontWeight.bold,
-            ),
-            fillColor: Colors.white30,
-            filled: true,
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide.none)),
-      ),
-    );
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+  Future<void> addUser() {
+    return users
+        .doc('ABC123')
+        .set({
+          'fullname': fullNameTextEditingController.text,
+          'password': passwordTextEditingController.text
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Color(0xff555555),
       ),
-      body:SingleChildScrollView(
-      child :
-      Column(
+      body: SingleChildScrollView(
+          child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Stack(
@@ -77,7 +100,7 @@ class Profile extends StatefulWidget {
               Padding(
                 padding: EdgeInsets.fromLTRB(180.0, 100.0, 0.0, 0.0),
                 child: CircleAvatar(
-                  backgroundColor: Colors.black54,
+                  backgroundColor: Colors.teal,
                   child: IconButton(
                     icon: Icon(
                       Icons.edit,
@@ -89,65 +112,82 @@ class Profile extends StatefulWidget {
               )
             ],
           ),
-       Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              height: 400,
-              width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  textfield(
-                    hintText: "Username",
-                  ),
-                  textfield(
-                    hintText: "Fullname",
-                  ),
-                  TextFormField(
-                    controller : emailTextEditingController,
-                    decoration: textFieldInputDecoration("email"),
-                  ),
-                  textfield(
-                    hintText: "Password",
-                  ),
-                  textfield(
-                    hintText: "Confirm Password",
-                  ),
-                  Container(
-                    height: 45,
-                    width: double.infinity,
-                    child: RaisedButton(
-                      onPressed: () {
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                height: 400,
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextField(
+                      controller: userNameTextEditingController,
+                      decoration: InputDecoration(
+                        enabled: false,
+                        labelText: "User Name",
+                        hintText: "User name",
+                        hintStyle: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    ),
+                    TextField(
+                      controller: emailTextEditingController,
+                      decoration: InputDecoration(
+                          enabled: false,
+                          labelText: "Email",
+                          hintText: "Email"),
+                    ),
+                    TextField(
+                      controller: fullNameTextEditingController,
+                      decoration: InputDecoration(
+                          labelText: "Fullname", hintText: "Fullname"),
+                    ),
+                    TextField(
+                      controller: passwordTextEditingController,
+                      decoration: InputDecoration(
+                          labelText: "PassWord", hintText: "PassWord"),
+                    ),
+                    Container(
+                      height: 45,
+                      width: double.infinity,
+                      child: TextButton(
+                        onPressed: () {
 
-                      },
-                      color: Colors.black54,
-                      child: Center(
-                        child: Text(
-                          "Update",
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white,
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .update({
+                            'fullname': fullNameTextEditingController.text,
+                          }).then((value) => debugPrint('updated'));
+                        },
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.black54)),
+                        child: const Center(
+                          child: Text(
+                            "Update",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ],
-      )
-      ),
+      )),
     );
   }
 }
-
-
 
 class HeaderCurvedContainer extends CustomPainter {
   @override

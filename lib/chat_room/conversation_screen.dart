@@ -143,27 +143,27 @@ class MessageTile extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 26, vertical: 8),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: isSendByMe ? [
-              Colors.indigoAccent,
-              Colors.lightBlueAccent
-            ] : [
-              Colors.yellowAccent,
-              Colors.yellowAccent
-            ]
-          ),
-          borderRadius: isSendByMe ?
-              BorderRadius.only(
+            gradient: LinearGradient(
+                colors: isSendByMe ? [
+                  Colors.indigoAccent,
+                  Colors.lightBlueAccent
+                ] : [
+                  Colors.yellowAccent,
+                  Colors.yellowAccent
+                ]
+            ),
+            borderRadius: isSendByMe ?
+            BorderRadius.only(
                 topLeft: Radius.circular(24),
                 topRight: Radius.circular(24),
                 bottomLeft: Radius.circular(24)
-              )
-              :
-              BorderRadius.only(
+            )
+                :
+            BorderRadius.only(
                 topLeft: Radius.circular(24),
                 topRight: Radius.circular(24),
                 bottomRight: Radius.circular(24)
-          )
+            )
         ),
         child: Text(message,
           style: TextStyle(
@@ -175,4 +175,3 @@ class MessageTile extends StatelessWidget {
     );
   }
 }
-

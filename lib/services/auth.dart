@@ -20,7 +20,7 @@ class AuthMethods {
     }
   }
 
-  Future signUpwithEmailAndPassword(String email, String password , String username , String fullname) async {
+  Future signUpwithEmailAndPassword(String username, String fullname , String email , String password) async {
     try {
       UserCredential result = await _auth
           .createUserWithEmailAndPassword(email: email, password: password)

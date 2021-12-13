@@ -28,7 +28,7 @@ class _SearchScreenState extends State<SearchScreen> {
         shrinkWrap: true,
         itemBuilder: (context,index){
           return SearchTile(
-            userName: searchSnapshot!.docs[index]["name"],
+            userName: searchSnapshot!.docs[index]["username"],
             userEmail: searchSnapshot!.docs[index]["email"],
           );
         });

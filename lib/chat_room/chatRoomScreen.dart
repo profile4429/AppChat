@@ -6,6 +6,8 @@ import 'package:app_chat/services/auth.dart';
 import 'package:app_chat/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:app_chat/helper/constant.dart';
+
+
 class ChatRoom extends StatefulWidget {
   @override
   _ChatRoomState createState() => _ChatRoomState();
@@ -32,7 +34,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 snapshot.data.docs[index]["chatroomId"]
               );
             }): Container();
-      }, 
+      },
     );
   }
 
